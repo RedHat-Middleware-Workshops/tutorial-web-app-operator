@@ -55,6 +55,10 @@ parameters:
   - name: INSTALLATION_TYPE
     description: Type of cluster
     required: false
+  - name: IMAGE
+    description: Container image to deploy
+    required: true
+    value: quay.io/redhatintegration/tutorial-web-app:latest
 objects:
   - apiVersion: v1
     kind: DeploymentConfig
@@ -114,7 +118,7 @@ objects:
                   value: ${INSTALLED_SERVICES}
                 - name: INSTALLATION_TYPE
                   value: ${INSTALLATION_TYPE}
-              image: quay.io/integreatly/tutorial-web-app:2.28.1
+              image: ${IMAGE}
               imagePullPolicy: Always
               name: tutorial-web-app
               ports:
