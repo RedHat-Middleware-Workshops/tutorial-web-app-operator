@@ -12,27 +12,32 @@ spec:
     shortNames:
       - wa
   scope: Namespaced
-  version: v1alpha1
-  additionalPrinterColumns:
-    - name: status
-      description: webapp current status
-      type: string
-      JSONPath: .status.message
-    - name: created
-      description: webapp date creation
-      type: date
-      JSONPath: .metadata.creationTimestamp
-  validation:
-    openAPIV3Schema:
-      properties:
-        spec:
+  versions: 
+    - name: v1alpha1
+      served: true
+      storage: true
+      schema:
+        openAPIV3Schema:
+          type: object
           properties:
-            app_label:
-              type: string
-            template:
+            spec:
               type: object
               properties:
-                path:
+                app_label:
                   type: string
-                parameters:
+                template:
                   type: object
+                  properties:
+                    path:
+                      type: string
+                    parameters:
+                      type: object        
+      additionalPrinterColumns:
+        - name: status
+          description: webapp current status
+          type: string
+          jsonPath: .status.message
+        - name: created
+          description: webapp date creation
+          type: date
+          jsonPath: .metadata.creationTimestamp
