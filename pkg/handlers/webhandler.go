@@ -42,7 +42,7 @@ const (
 	upgradeData               = "UPGRADE_DATA"
 )
 
-var webappParams = [...]string{"OPENSHIFT_OAUTHCLIENT_ID", "OPENSHIFT_HOST", "OPENSHIFT_OAUTH_HOST", "SSO_ROUTE", OpenShiftAPIHost, OpenShiftVersion, IntegreatlyVersion, WTLocations, ClusterType, InstalledServices, InstallationType, upgradeData}
+var webappParams = [...]string{"IMAGE", "OPENSHIFT_OAUTHCLIENT_ID", "OPENSHIFT_HOST", "OPENSHIFT_OAUTH_HOST", "SSO_ROUTE", OpenShiftAPIHost, OpenShiftVersion, IntegreatlyVersion, WTLocations, ClusterType, InstalledServices, InstallationType, upgradeData}
 
 func NewWebHandler(m *metrics.Metrics, osClient openshift.OSClientInterface, factory ClientFactory, cruder SdkCruder) AppHandler {
 	return AppHandler{
@@ -120,12 +120,20 @@ func (h *AppHandler) reconcile(cr *v1alpha1.WebApp) error {
 	}
 	dcUpdated := false
 
-	dcUpdated, dc.Spec.Template.Spec.Containers[0] = migrateImage(dc.Spec.Template.Spec.Containers[0])
+	// dcUpdated, dc.Spec.Template.Spec.Containers[0] = migrateImage(dc.Spec.Template.Spec.Containers[0])
+
 
 	for _, param := range webappParams {
 		updated := false
 		if val, ok := cr.Spec.Template.Parameters[param]; ok {
-			updated, dc.Spec.Template.Spec.Containers[0] = updateOrCreateEnvVar(dc.Spec.Template.Spec.Containers[0], param, val)
+			if param == "IMAGE" {
+				if dc.Spec.Template.Spec.Containers[0].Image != val {
+					updated = true
+					dc.Spec.Template.Spec.Containers[0].Image = val
+				}
+			} else {
+				updated, dc.Spec.Template.Spec.Containers[0] = updateOrCreateEnvVar(dc.Spec.Template.Spec.Containers[0], param, val)
+			}
 		} else {
 			// if WALKTHROUGH_LOCATIONS is not defined then use the default value
 			if param == WTLocations {
