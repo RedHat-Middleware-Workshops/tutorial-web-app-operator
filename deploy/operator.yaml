@@ -29,3 +29,10 @@ spec:
                   fieldPath: metadata.namespace
             - name: OPERATOR_NAME
               value: "tutorial-web-app-operator"
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512M
+            requests:
+              cpu: 128m
+              memory: 128M
