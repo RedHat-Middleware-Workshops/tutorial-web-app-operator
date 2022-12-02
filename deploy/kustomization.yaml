@@ -1,0 +1,9 @@
+commonLabels:
+  app: solution-explorer-operator
+namespace: solution-explorer
+resources:
+- ns.yaml
+- sa.yaml
+- rbac.yaml
+- crd.yaml
+- operator.yaml

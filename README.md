@@ -1,27 +1,24 @@
-# tutorial-web-app-operator
+# Solution Explorer Operator
 
-Openshift operator that handles integreatly tutorial-web-app deployments.
+Openshift operator that handles solution explorer deployments.
 
 
-|                 | Project Info  |
-| --------------- | ------------- |
-| License:        | Apache License, Version 2.0                      |
-| IRC             | [#integreatly](https://webchat.freenode.net/?channels=integreatly) channel in the [freenode](http://freenode.net/) network. |
+|          | Project Info                |
+| -------- | --------------------------- |
+| License: | Apache License, Version 2.0 |
 
 
 ## Deploying
 
 ```sh
-#create required resources
-make cluster/prepare
-#deploys the operator itself
-make -B cluster/deploy
+#create required resources (including the solution-explorer namespace)
+kubectl apply -k deploy
 ```
 
 ## Building
 
 ```sh
-#builds image: quay.io/integreatly/tutorial-web-app-operator:latest
+#builds image: quay.io/redhatintegration/tutorial-web-app-operator:latest
 make image/build
 
 #custom image params: registry.io/myusername/image-name:dev
@@ -36,9 +33,9 @@ make test/unit
 
 ## Updating Web App Image Version
 Update web app image version in the following files:
-* Update [WebAppImage](pkg/handlers/webhandler.go) `WebAppImage = "quay.io/integreatly/tutorial-web-app:<version>"`
+* Update [WebAppImage](pkg/handlers/webhandler.go) `WebAppImage = "quay.io/redhatintegration/tutorial-web-app:<version>"`
   * Image version that the deployment config gets reconciled to (**Must be updated as would override the version used by the template**)
-* Update [tutorial-web-app.yml template](deploy/template/tutorial-web-app.yml) `image: quay.io/integreatly/tutorial-web-app:<version>`
+* Update [tutorial-web-app.yml template](deploy/template/tutorial-web-app.yml) `image: quay.io/redhatintegration/tutorial-web-app:<version>`
   * Image version that gets deployed on initial processing of the template file
 
 ## Release
@@ -50,7 +47,7 @@ Update operator version files:
 * Bump [makefile TAG](Makefile)
 ```TAG=<version>```
 * Bump [operator image version](deploy/operator.yaml)
-```image: quay.io/integreatly/tutorial-web-app-operator:v<version>```
+```image: quay.io/redhatintegration/tutorial-web-app-operator:v<version>```
 
 Commit changes and open a pull request to master.
 
