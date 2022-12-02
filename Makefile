@@ -1,8 +1,8 @@
 SHELL=/bin/bash
 REG=quay.io
-ORG=integreatly
+ORG=redhatintegration
 IMAGE=tutorial-web-app-operator
-TAG=v0.0.63
+TAG=v0.0.63-workshop
 KUBE_CMD=oc apply -f
 DEPLOY_DIR=deploy
 OUT_STATIC_DIR=tmp/_output
