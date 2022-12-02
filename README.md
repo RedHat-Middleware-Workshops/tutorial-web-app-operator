@@ -12,13 +12,10 @@ Openshift operator that handles solution explorer deployments.
 Here are some instructions to get the operator up and running on OpenShift:
 
 1. Clone this repository to your host machine:
-
    ```sh
    git clone https://github.com/RedHat-Middleware-Workshops/tutorial-web-app-operator.git
    ```
-
-2.  Run the kubectl:
-
+2. Run kubectl:
    ```sh
    #create resources (including the solution-explorer namespace) with kustomize
    kubectl apply -k deploy
